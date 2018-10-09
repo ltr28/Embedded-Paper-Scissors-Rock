@@ -1,8 +1,7 @@
 #include "system.h"
-#include "ledmat.h"
-#include "ir_uart.h"
 #include "pacer.h"
 #include "navswitch.h"
+#include "ir_uart.h"
 #include "tinygl.h"
 #include "../fonts/font5x7_1.h"
 
@@ -21,7 +20,6 @@ void display_character (char character)
 int main (void)
 {
     system_init ();
-    led_init ();
     navswitch_init ();
     pacer_init (PACER_RATE);
 
