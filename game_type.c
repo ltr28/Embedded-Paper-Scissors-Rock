@@ -37,7 +37,7 @@ int choose_game (void)
             game_index++;
 
         if (navswitch_push_event_p (NAVSWITCH_SOUTH))
-                game_index--;
+            game_index--;
 
         if (navswitch_push_event_p (NAVSWITCH_PUSH))
                 game_type = game_options(game_index)

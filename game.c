@@ -17,6 +17,9 @@ void display_character (char character)
 }
 
 
+
+
+
 int main (void)
 {
     system_init ();
@@ -31,9 +34,21 @@ int main (void)
 
     while (1)
     {
-        pacer_wait();
+        /*pacer_wait();
         tinygl_update();
-        navswitch_update();
+        navswitch_update();*/
+
+        game_type = choose_game();
+        your_char = choose_char();
+        their_char = get_char();
+        winner = winner(your_char, their_char);
+        score = score_update(winner);
+        game_win(score, game_type);
+
+
+
+
+
 
 
 
