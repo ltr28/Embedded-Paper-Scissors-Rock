@@ -7,9 +7,7 @@
 #include "delay.h"
 
 #define PACER_RATE 500
-#define MESSAGE_RATE 10
-
-static int check = 0;
+#define MESSAGE_RATE 20
 
 void display_character (char character)
 {
@@ -73,8 +71,7 @@ char choose_char(void)
 }
 
 
-/*
-int winner (char input1, char input2)
+int decide_winner (char input1, char input2)
 {
     //Who wins the game?
     //input: 'P'-Paper, 'S'-Scissors, 'R'-Rock
@@ -111,6 +108,7 @@ int winner (char input1, char input2)
     return winner;
 }
 
+/*
 void run_game(void)
 {
     int chosen = 0;
@@ -144,8 +142,29 @@ void initial_message (void) {
 }
 
 void choose_char_message (void) {
-    tinygl_text("Choose Object: ");
+
+    tinygl_text("Object: ");
     display_message();
+}
+
+void round_result_message (int winner) {
+
+    if (winner == 0)
+    {
+        tinygl_text("Round: You Drew!");
+        display_message();
+    }
+    else if (winner == 1)
+    {
+        tinygl_text("Round: You Won!");
+        display_message();
+    }
+    else if (winner == 2)
+    {
+        tinygl_text("Round: You Lost!");
+        display_message();
+    }
+
 }
 
 int main (void)
@@ -159,24 +178,36 @@ int main (void)
     tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
 
     int game_type = 0;
+    int winner = 0;
     char your_char;
+    //int game_track = 0;
+    char their_char;
+
 
     initial_message();
     game_type = choose_game();
     choose_char_message();
     your_char = choose_char();
+    their_char = 'R';
+    winner = decide_winner(your_char, their_char);
+    round_result_message(winner);
 
-    while (1)
+
+ /*   while (game_track < game_type)
     {
-/*
+
+
+        score = score_update(winner);
+
+        game_track++;
         your_char = choose_char();
         their_char = get_char();
-        winner = winner(your_char, their_char);
-        score = score_update(winner);
-        game_win(score, game_type);
-*/
 
-    }
+
+        game_win(score, game_type);
+
+
+    }*/
 
     return 0;
 }
