@@ -9,6 +9,7 @@
 #define PACER_RATE 500
 #define MESSAGE_RATE 20
 
+/*------------------Auxiliary functions------------------------------*/
 void display_character (char character)
 {
     char buffer[2];
@@ -20,7 +21,7 @@ void display_character (char character)
 char choose_item(char item_options[])
 {
     int i = 0;
-    int item_chosen = 0;
+    char item_chosen = 0;
     while (item_chosen == 0) {
         pacer_wait();
         tinygl_update();
@@ -52,11 +53,11 @@ void display_message(void)
    }
 }
 
-
+/*---------------------Message functions------------------------------*/
 int choose_game (void)
 {
     char game_options[] = {'1', '3', '5'};
-    int game_chosen = choose_item(game_options);
+    char game_chosen = choose_item(game_options);
 
     return game_chosen;
 }
@@ -64,12 +65,64 @@ int choose_game (void)
 char choose_char(void)
 {
     char char_options[] = {'P', 'S', 'R'};
-    int char_chosen = choose_item(char_options);
+    char char_chosen = choose_item(char_options);
 
 
     return char_chosen;
 }
 
+
+void initial_message (void) {
+
+    tinygl_text("Best of: ");
+    display_message();
+}
+
+void choose_char_message (void) {
+
+    tinygl_text("Object: ");
+    display_message();
+}
+
+void round_result_message (int winner) {
+
+    if (winner == 0)
+    {
+        tinygl_text("Round: You Drew!");
+        display_message();
+    }
+    else if (winner == 1)
+    {
+        tinygl_text("Round: You Won!");
+        display_message();
+    }
+    else if (winner == 2)
+    {
+        tinygl_text("Round: You Lost!");
+        display_message();
+    }
+
+}
+
+/*---------------------In Game functions------------------------------*/
+int calc_round_limit(int game_type)
+{
+    int round_limit = 0;
+    if (game_type == 1)
+    {
+        round_limit = 1;
+    }
+    else if (game_type == 3)
+    {
+        round_limit = 2;
+    }
+    else if (game_type == 5)
+    {
+        round_limit = 3;
+    }
+
+    return round_limit;
+}
 
 int decide_winner (char input1, char input2)
 {
@@ -108,65 +161,38 @@ int decide_winner (char input1, char input2)
     return winner;
 }
 
-/*
-void run_game(void)
+int update_your_score(int winner)
 {
-    int chosen = 0;
-    char options[] = {'P', 'S', 'R'};
-    int i = 0;
-    while (option == 0) {
-        pacer_wait();
-        tinygl_update();
-        navswitch_update ();
-        if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
-            i++;
-        }
-        if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
-            i--;
-        }
-        if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
-            chosen = options;
-        }
-        display_character(options[i]);
+    static int your_score = 0;
 
-    }
-    char opponent = 'R';
-    int winner = winner(chosen, opponent);
-    score[winner-1] += 1;
-}
-*/
-void initial_message (void) {
-
-    tinygl_text("Best of: ");
-    display_message();
-}
-
-void choose_char_message (void) {
-
-    tinygl_text("Object: ");
-    display_message();
-}
-
-void round_result_message (int winner) {
-
-    if (winner == 0)
+    if (winner == 1)
     {
-        tinygl_text("Round: You Drew!");
-        display_message();
-    }
-    else if (winner == 1)
-    {
-        tinygl_text("Round: You Won!");
-        display_message();
-    }
-    else if (winner == 2)
-    {
-        tinygl_text("Round: You Lost!");
-        display_message();
+        your_score++;
     }
 
+    return your_score;
 }
 
+
+int check_continue(int round_limit, int your_score, int their_score)
+{
+    int continue_game = 0;
+
+    if (your_score < round_limit && their_score < round_limit)
+    {
+        continue_game = 1;
+    }
+
+    return continue_game;
+}
+
+
+
+
+
+
+
+/*-----------------------Main function--------------------------------*/
 int main (void)
 {
     system_init ();
@@ -177,37 +203,51 @@ int main (void)
     tinygl_text_speed_set (MESSAGE_RATE);
     tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
 
+    int round_limit = 0;
     int game_type = 0;
+    int your_score = 0;
+    int their_score = 0;
+    int game_continue = 1;
     int winner = 0;
     char your_char;
-    //int game_track = 0;
     char their_char;
 
 
     initial_message();
     game_type = choose_game();
-    choose_char_message();
-    your_char = choose_char();
-    their_char = 'R';
-    winner = decide_winner(your_char, their_char);
-    round_result_message(winner);
+    round_limit = calc_round_limit(game_type);
 
-
- /*   while (game_track < game_type)
+    while (game_continue)
     {
+        choose_char_message();
+        your_char = choose_char();
+
+        //their_char = get_char();
+        their_char = 'R'; //Arbitrary for testing
+
+        winner = decide_winner(your_char, their_char);
+        round_result_message(winner);
+        your_score = update_your_score(winner);
+
+        their_score = 1; //Arbitrary for testing
+        //their_score = get_their_score()
+
+        game_continue = check_continue(round_limit, your_score, their_score);
+
+        /*game_continue(winner);
+
 
 
         score = score_update(winner);
 
-        game_track++;
-        your_char = choose_char();
-        their_char = get_char();
+        round_num++;
+        game_win(score, game_type);*/
 
 
-        game_win(score, game_type);
+    }
 
-
-    }*/
+    tinygl_text("GAME OVER!");
+    display_message();;
 
     return 0;
 }
