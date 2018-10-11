@@ -104,6 +104,20 @@ void round_result_message (int winner) {
 
 }
 
+void game_result_message(int did_you_win_game)
+{
+    if (did_you_win_game)
+    {
+        tinygl_text("GAME OVER: You Won!");
+        display_message();
+    }
+    else {
+        tinygl_text("GAME OVER: You Lost!");
+        display_message();
+    }
+}
+
+
 /*---------------------In Game functions------------------------------*/
 int calc_round_limit(int game_type)
 {
@@ -186,11 +200,17 @@ int check_continue(int round_limit, int your_score, int their_score)
     return continue_game;
 }
 
+int find_game_result(int your_score, int their_score)
+{
+    int did_you_win_game = 0;
 
+    if (your_score > their_score)
+    {
+        did_you_win_game = 1;
+    }
 
-
-
-
+    return did_you_win_game;
+}
 
 /*-----------------------Main function--------------------------------*/
 int main (void)
@@ -208,10 +228,10 @@ int main (void)
     int your_score = 0;
     int their_score = 0;
     int game_continue = 1;
-    int winner = 0;
+    int did_you_win_game = 0;
+    int round_winner = 0;
     char your_char;
     char their_char;
-
 
     initial_message();
     game_type = choose_game();
@@ -222,32 +242,24 @@ int main (void)
         choose_char_message();
         your_char = choose_char();
 
-        //their_char = get_char();
+        //their_char = get__their_char();
         their_char = 'R'; //Arbitrary for testing
 
-        winner = decide_winner(your_char, their_char);
-        round_result_message(winner);
-        your_score = update_your_score(winner);
+        round_winner = decide_winner(your_char, their_char);
+        round_result_message(round_winner);
+        your_score = update_your_score(round_winner);
 
-        their_score = 1; //Arbitrary for testing
-        //their_score = get_their_score()
+        //their_score = get_their_score();
+        their_score = 0; //Arbitrary for testing
+
 
         game_continue = check_continue(round_limit, your_score, their_score);
-
-        /*game_continue(winner);
-
-
-
-        score = score_update(winner);
-
-        round_num++;
-        game_win(score, game_type);*/
 
 
     }
 
-    tinygl_text("GAME OVER!");
-    display_message();;
+    did_you_win_game = find_game_result(your_score, their_score);
+    game_result_message(did_you_win_game);
 
     return 0;
 }
