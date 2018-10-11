@@ -16,9 +16,37 @@ void display_character (char character)
     tinygl_text (buffer);
 }
 
+int choose_game (void)
+{
+    int game_chosen = 0;
+    int game_index = 0;
+    int game_options[] = {'1', '3', '5'};
+    char game_type = 0;
 
+    while(game_chosen == 0)
+    {
+        pacer_wait();
+        tinygl_update();
+        navswitch_update ();
 
+        if (navswitch_push_event_p (NAVSWITCH_NORTH))
+            game_index++;
 
+        if (navswitch_push_event_p (NAVSWITCH_SOUTH))
+            game_index--;
+
+        if (navswitch_push_event_p (NAVSWITCH_PUSH))
+        {
+            game_type = game_options[game_index];
+            game_chosen = 1;
+        }
+
+        display_character(game_options[game_index]);
+
+    }
+
+    return game_type;
+}
 
 int main (void)
 {
@@ -31,28 +59,19 @@ int main (void)
     tinygl_text_speed_set (MESSAGE_RATE);
     tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
 
+    int game_type = 0;
+
 
     while (1)
     {
-        /*pacer_wait();
-        tinygl_update();
-        navswitch_update();*/
 
+        //open_message();
         game_type = choose_game();
-        your_char = choose_char();
+        /*your_char = choose_char();
         their_char = get_char();
         winner = winner(your_char, their_char);
         score = score_update(winner);
-        game_win(score, game_type);
-
-
-
-
-
-
-
-
-
+        game_win(score, game_type);*/
 
     }
 
