@@ -54,23 +54,6 @@ void display_message(void)
 }
 
 /*---------------------Message functions------------------------------*/
-int choose_game (void)
-{
-    char game_options[] = {'1', '3', '5'};
-    char game_chosen = choose_item(game_options);
-
-    return game_chosen;
-}
-
-char choose_char(void)
-{
-    char char_options[] = {'P', 'S', 'R'};
-    char char_chosen = choose_item(char_options);
-
-
-    return char_chosen;
-}
-
 
 void initial_message (void) {
 
@@ -108,29 +91,48 @@ void game_result_message(int did_you_win_game)
 {
     if (did_you_win_game)
     {
-        tinygl_text("GAME OVER: You Won!");
+        tinygl_text("GAME OVER: You Win!");
         display_message();
     }
     else {
-        tinygl_text("GAME OVER: You Lost!");
+        tinygl_text("GAME OVER: You Lose!");
         display_message();
     }
 }
 
 
 /*---------------------In Game functions------------------------------*/
-int calc_round_limit(int game_type)
+char choose_game (void)
+{
+
+    char game_options[] = {'1', '3', '5'};
+    char game_chosen = choose_item(game_options);
+
+    return game_chosen;
+}
+
+char choose_char(void)
+{
+    char char_options[] = {'P', 'S', 'R'};
+    char char_chosen = choose_item(char_options);
+
+
+    return char_chosen;
+}
+
+int calc_round_limit(char game_type)
 {
     int round_limit = 0;
-    if (game_type == 1)
+
+    if (game_type == '1')
     {
         round_limit = 1;
     }
-    else if (game_type == 3)
+    else if (game_type == '3')
     {
         round_limit = 2;
     }
-    else if (game_type == 5)
+    else if (game_type == '5')
     {
         round_limit = 3;
     }
@@ -224,7 +226,7 @@ int main (void)
     tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
 
     int round_limit = 0;
-    int game_type = 0;
+    char game_type = 0;
     int your_score = 0;
     int their_score = 0;
     int game_continue = 1;
@@ -254,8 +256,6 @@ int main (void)
 
 
         game_continue = check_continue(round_limit, your_score, their_score);
-
-
     }
 
     did_you_win_game = find_game_result(your_score, their_score);
