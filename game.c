@@ -101,7 +101,8 @@ void game_result_message(int did_you_win_game)
 }
 
 
-/*---------------------In Game functions------------------------------*/
+/*---------------------Game functions------------------------------*/
+
 char choose_game (void)
 {
 
