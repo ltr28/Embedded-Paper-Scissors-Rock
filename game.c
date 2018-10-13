@@ -7,7 +7,7 @@
 #include "delay.h"
 
 #define PACER_RATE 500
-#define MESSAGE_RATE 20
+#define MESSAGE_RATE 30
 
 /*------------------Auxiliary functions------------------------------*/
 void display_character (char character)
@@ -55,7 +55,7 @@ int decide_winner (char input1, char input2)
     return winner;
 }
 
-int choose_results(char item_options[])
+int exchange_options(char item_options[])
 {
     int i = 0;
     int winner = 0;
@@ -183,10 +183,10 @@ char choose_game (void)
     return game_chosen;
 }
 
-char choose_char(void)
+char play_round(void)
 {
     char char_options[] = {'P', 'S', 'R'};
-    int winner = choose_results(char_options);
+    int winner = exchange_options(char_options);
 
     return winner;
 }
@@ -274,7 +274,7 @@ int main (void)
         while (game_continue)
         {
             choose_char_message();
-            round_winner = choose_char();
+            round_winner = play_round();
             round_result_message(round_winner);
             your_score = update_score(round_winner, 1, your_score);
             their_score = update_score(round_winner, 2, their_score);
