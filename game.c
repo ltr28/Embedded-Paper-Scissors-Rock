@@ -18,6 +18,103 @@ void display_character (char character)
     tinygl_text(buffer);
 }
 
+int increment_options(char item_options[], int i)
+{
+    pacer_wait();
+    tinygl_update();
+    navswitch_update ();
+    if (navswitch_push_event_p (NAVSWITCH_NORTH) && i < 2) {
+        i++;
+    }
+    if (navswitch_push_event_p (NAVSWITCH_SOUTH) && i > 0) {
+        i--;
+    }
+    display_character(item_options[i]);
+    return i;
+}
+
+char choose_item(char item_options[])
+{
+    int i = 0;
+    char item_chosen = 0;
+    char their_item = 'a';
+    while (item_chosen != their_item) {
+        i= increment_options(item_options, i);
+        if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+            item_chosen = item_options[i];
+            ir_uart_putc(item_chosen);
+        }
+        if (ir_uart_read_ready_p()) {
+            their_item = ir_uart_getc();
+        }
+    }
+    return item_chosen;
+}
+
+/*---------------------Message functions------------------------------*/
+
+void display_message(void)
+{
+    int check = 0;
+    while (check == 0) {
+       pacer_wait();
+       tinygl_update();
+       navswitch_update();
+       if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+           check += 1;
+       }
+   }
+}
+
+void initial_message (void) {
+
+    tinygl_text("  Best of: ");
+    display_message();
+}
+
+void choose_char_message (void) {
+
+    tinygl_text("  Object: ");
+    display_message();
+}
+
+void round_result_message (int winner) {
+
+    if (winner == 0)
+    {
+        tinygl_text("  Round: You Drew!");
+        display_message();
+    }
+    else if (winner == 1)
+    {
+        tinygl_text("  Round: You Won!");
+        display_message();
+    }
+    else if (winner == 2)
+    {
+        tinygl_text("  Round: You Lost!");
+        display_message();
+    }
+
+}
+
+void game_result_message(int did_you_win_game)
+{
+    if (did_you_win_game)
+    {
+        tinygl_text("  GAME OVER: You Win!");
+        display_message();
+    }
+    else {
+        tinygl_text("  GAME OVER: You Lose!");
+        display_message();
+    }
+}
+
+
+/*---------------------In Game functions------------------------------*/
+
+
 int decide_winner (char input1, char input2)
 {
     //Who wins the game?
@@ -62,15 +159,7 @@ int exchange_options(char item_options[])
     char their_item = 'a';
     char item_chosen = 0;
     while (item_chosen == 0 || their_item == 'a') {
-        pacer_wait();
-        tinygl_update();
-        navswitch_update ();
-        if (navswitch_push_event_p (NAVSWITCH_NORTH) && i < 2) {
-            i++;
-        }
-        if (navswitch_push_event_p (NAVSWITCH_SOUTH) && i > 0) {
-            i--;
-        }
+        i= increment_options(item_options, i);
         if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
             item_chosen = item_options[i];
             ir_uart_putc(item_chosen);
@@ -78,110 +167,11 @@ int exchange_options(char item_options[])
         if (ir_uart_read_ready_p()) {
             their_item = ir_uart_getc();
         }
-        display_character(item_options[i]);
     }
     winner = decide_winner(item_chosen, their_item);
     return winner;
 }
 
-char choose_item(char item_options[])
-{
-    int i = 0;
-    char item_chosen = 0;
-    char their_item = 'a';
-    while (item_chosen != their_item) {
-        pacer_wait();
-        tinygl_update();
-        navswitch_update ();
-        if (navswitch_push_event_p (NAVSWITCH_NORTH) && i < 2) {
-            i++;
-        }
-        if (navswitch_push_event_p (NAVSWITCH_SOUTH) && i > 0) {
-            i--;
-        }
-        if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
-            item_chosen = item_options[i];
-            ir_uart_putc(item_chosen);
-        }
-        if (ir_uart_read_ready_p()) {
-            their_item = ir_uart_getc();
-        }
-        display_character(item_options[i]);
-    }
-    return item_chosen;
-}
-
-
-void display_message(void)
-{
-    int check = 0;
-    while (check == 0) {
-       pacer_wait();
-       tinygl_update();
-       navswitch_update();
-       if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
-           check += 1;
-       }
-   }
-}
-
-/*---------------------Message functions------------------------------*/
-
-void initial_message (void) {
-
-    tinygl_text("Best of: ");
-    display_message();
-}
-
-void choose_char_message (void) {
-
-    tinygl_text("Object: ");
-    display_message();
-}
-
-void round_result_message (int winner) {
-
-    if (winner == 0)
-    {
-        tinygl_text("Round: You Drew!");
-        display_message();
-    }
-    else if (winner == 1)
-    {
-        tinygl_text("Round: You Won!");
-        display_message();
-    }
-    else if (winner == 2)
-    {
-        tinygl_text("Round: You Lost!");
-        display_message();
-    }
-
-}
-
-void game_result_message(int did_you_win_game)
-{
-    if (did_you_win_game)
-    {
-        tinygl_text("GAME OVER: You Win!");
-        display_message();
-    }
-    else {
-        tinygl_text("GAME OVER: You Lose!");
-        display_message();
-    }
-}
-
-
-/*---------------------In Game functions------------------------------*/
-char choose_game (void)
-{
-
-    char game_options[] = {'1', '3', '5'};
-    char game_chosen = choose_item(game_options);
-
-    return game_chosen;
-}
 
 char play_round(void)
 {
@@ -190,6 +180,19 @@ char play_round(void)
 
     return winner;
 }
+
+
+
+/*----------------------Scoring Functions-----------------------------*/
+
+char choose_game (void)
+{
+    char game_options[] = {'1', '3', '5'};
+    char game_chosen = choose_item(game_options);
+
+    return game_chosen;
+}
+
 
 int calc_round_limit(char game_type)
 {
@@ -210,8 +213,6 @@ int calc_round_limit(char game_type)
 
     return round_limit;
 }
-
-
 
 int update_score(int winner, int player, int score)
 {
@@ -245,6 +246,7 @@ int find_game_result(int your_score, int their_score)
 
     return did_you_win_game;
 }
+
 
 /*-----------------------Main function--------------------------------*/
 int main (void)
