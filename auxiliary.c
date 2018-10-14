@@ -1,7 +1,17 @@
+/*
+    *File:    auxiliary.c
+    *Authors: Samuel Crawley (43420688)
+              Luke Trenberth (47277086)
+    *Date:    13.10.18
+    *Brief:   auxiliary functions used in PAPER SCISSORS ROCK
+*/
+
+
 /*------------------Auxiliary functions------------------------------*/
 
 #include "auxiliary.h"
 
+/** Displays a single character */
 void display_character (char character)
 {
     char buffer[2];
@@ -10,6 +20,10 @@ void display_character (char character)
     tinygl_text(buffer);
 }
 
+/** Iterate through an array of character options
+    @param list of options
+    @param index to iterate through list
+    @return index of the selected option*/
 int increment_options(char item_options[], int i)
 {
     pacer_wait();
@@ -25,6 +39,9 @@ int increment_options(char item_options[], int i)
     return i;
 }
 
+/** Selects an option from an array of characters
+    @param list of options
+    @return the chosen character*/
 char choose_item(char item_options[])
 {
     int i = 0;
