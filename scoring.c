@@ -3,8 +3,10 @@
     *Authors: Samuel Crawley (43420688)
               Luke Trenberth (47277086)
     *Date:    13.10.18
-    *Brief:   functions that use scores throughout PAPER SCISSORS ROCK
+    *Brief:   functions that use scores throughout Paper Scissors Rock
 */
+
+
 /*----------------------Scoring Functions-----------------------------*/
 
 #include "scoring.h"
@@ -20,7 +22,8 @@ char choose_game (void)
     return game_chosen;
 }
 
-/** Calculates the limit to the number of rounds for a single player in the game type chosen. If game type is best of 1, 3 or 5 the player round limit is 1 , 2 or 3 respectively.
+/** Calculates the limit to the number of rounds for a single player in the game type chosen.
+    If game type is best of 1, 3 or 5 the player round limit is 1 , 2 or 3 respectively.
     @param game type chosen
     @return the maximum number of rounds of each player*/
 int calc_round_limit(char game_type)

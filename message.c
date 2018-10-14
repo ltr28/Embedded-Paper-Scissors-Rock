@@ -3,8 +3,9 @@
     *Authors: Samuel Crawley (43420688)
               Luke Trenberth (47277086)
     *Date:    13.10.18
-    *Brief:   displays messages throughout PAPER SCISSORS ROCK
+    *Brief:   displays messages throughout Paper Scissors Rock
 */
+
 
 /*---------------------Message functions------------------------------*/
 

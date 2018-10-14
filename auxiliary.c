@@ -3,7 +3,7 @@
     *Authors: Samuel Crawley (43420688)
               Luke Trenberth (47277086)
     *Date:    13.10.18
-    *Brief:   auxiliary functions used in PAPER SCISSORS ROCK
+    *Brief:   auxiliary functions used in Paper Scissors Rock
 */
 
 
@@ -29,7 +29,7 @@ int increment_options(char item_options[], int i)
     pacer_wait();
     tinygl_update();
     navswitch_update ();
-    if (navswitch_push_event_p (NAVSWITCH_NORTH) && i < 2) {
+    if (navswitch_push_event_p (NAVSWITCH_NORTH) && i < 2) { // the array is always 1x3. The index conditions ensure that the selection does not run off the edge of the array
         i++;
     }
     if (navswitch_push_event_p (NAVSWITCH_SOUTH) && i > 0) {
@@ -44,17 +44,18 @@ int increment_options(char item_options[], int i)
     @return the chosen character*/
 char choose_item(char item_options[])
 {
+    //Initialise variables
     int i = 0;
     char item_chosen = 0;
     char their_item = 'a';
-    while (item_chosen != their_item) {
+    while (item_chosen != their_item) { //While loop ensures that the game only proceeds once each player selects a paper (P) scissors (S) or rock (R) character
         i= increment_options(item_options, i);
         if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
-            item_chosen = item_options[i];
-            ir_uart_putc(item_chosen);
+            item_chosen = item_options[i]; //Choose your P, S or R character
+            ir_uart_putc(item_chosen);//Transmit your character choice to the other player
         }
         if (ir_uart_read_ready_p()) {
-            their_item = ir_uart_getc();
+            their_item = ir_uart_getc();//Receive the other player's character
         }
     }
     return item_chosen;
