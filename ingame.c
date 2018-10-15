@@ -9,13 +9,12 @@
 #include "auxiliary.h"
 
 /*---------------------In Game functions------------------------------*/
+/** Finds the winner and loser 'P'-Paper, 'S'-Scissors, 'R'-Rock
+    @param Player1 character
+    @param Player2 character
+    @return 1-Player1 won, 2-Player2 won, 0-Draw*/
 int decide_winner (char input1, char input2)
 {
-    /*Who wins the game?
-    input: 'P'-Paper, 'S'-Scissors, 'R'-Rock
-    1-Player1 won, 2-Player2 won
-    0-Draw
-    */
     int winner = 0;
     if (input1 == 'P') {
         //Player 1 selects paper
@@ -51,11 +50,11 @@ int decide_winner (char input1, char input2)
     return winner;
 }
 
+/** Finds the winner and loser 'P'-Paper, 'S'-Scissors, 'R'-Rock
+    @param Options to choose
+    @return winner of game(1-Player1 won, 2-Player2 won, 0-Draw)*/
 int exchange_options(char item_options[])
 {
-    /*
-    Takes player1 and player2's options and finds winner, taking in options as inputs
-    */
     int i = 0;
     int winner = 0;
     char their_item = 'a';
@@ -77,7 +76,8 @@ int exchange_options(char item_options[])
     return winner;
 }
 
-
+/** Chooses PSR options
+    @return winner of round*/
 char play_round(void)
 {
     char char_options[] = {'P', 'S', 'R'}; //Chooses P, S, R options

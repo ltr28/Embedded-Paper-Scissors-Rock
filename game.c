@@ -26,6 +26,7 @@
 
 
 /*-----------------------Main function--------------------------------*/
+/** Runs rounds of PSR on repeat*/
 int main (void)
 {
     //Initializing Systems
