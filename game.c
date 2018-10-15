@@ -51,13 +51,13 @@ int main (void)
         int did_you_win_game = 0;
         int round_winner = 0;
 
-        initial_message(); //Displays startup message
+        display_message("Best of: "); //Displays startup message
         game_type = choose_game(); //Chooses Best of number (1/3/5)
         round_limit = calc_round_limit(game_type); //Finds round limit from input
 
         while (game_continue) //Continues to run while the game limit is not reached
         {
-            choose_char_message(); //Displays a choose char message until a button is pressed
+            display_message("  Object: "); //Displays a choose char message until a button is pressed
             round_winner = play_round(); //Selects inputs, compares them and finds winner
             round_result_message(round_winner); //Displays winner
             your_score = update_score(round_winner, 1, your_score); //updates your score
@@ -68,6 +68,7 @@ int main (void)
 
         did_you_win_game = find_game_result(your_score, their_score); // Finds who won overall
         game_result_message(did_you_win_game); // Displays win/loss message
+        display_message("   NEW GAME: ");
     }
 
     return 0;

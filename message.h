@@ -20,14 +20,9 @@
 #include "delay.h"
 /*---------------------Message functions------------------------------*/
 
-/**Is called by the other message functions to display the message */
-void display_message(void);
-
-/**Displays the message at the beginning of the game "Best of: "*/
-void initial_message (void);
-
-/**Displays the message "Object: "*/
-void choose_char_message (void);
+/**Displays a text message
+    @param text to display */
+void display_message(char* text);
 
 /**Displays the relevant message describing the reuslt of the round "Round: You Drew!", "Round: You Won!" or "Round: You Lost!"
     @param integer representing if you drew(0) if you won(1) or if the other player won(2)*/

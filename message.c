@@ -12,9 +12,11 @@
 #include "message.h"
 #include "auxiliary.h"
 
-/**Is called by the other message functions to display the message */
-void display_message(void)
-{
+
+/**Displays the message at the beginning of the game "Best of: "*/
+void display_message (char* text) {
+
+    tinygl_text(text);
     int check = 0;
     while (check == 0) {
        pacer_wait();
@@ -26,38 +28,21 @@ void display_message(void)
    }
 }
 
-/**Displays the message at the beginning of the game "Best of: "*/
-void initial_message (void) {
-
-    tinygl_text("  Best of: ");
-    display_message();
-}
-
-/**Displays the message "Object: "*/
-void choose_char_message (void) {
-
-    tinygl_text("  Object: ");
-    display_message();
-}
-
 /**Displays the relevant message describing the reuslt of the round "Round: You Drew!", "Round: You Won!" or "Round: You Lost!"
     @param integer representing if you drew(0) if you won(1) or if the other player won(2)*/
 void round_result_message (int winner) {
 
     if (winner == 0)
     {
-        tinygl_text("  Round: You Drew!");
-        display_message();
+        display_message("  Round: You Drew!");
     }
     else if (winner == 1)
     {
-        tinygl_text("  Round: You Won!");
-        display_message();
+        display_message("  Round: You Won! ");
     }
     else if (winner == 2)
     {
-        tinygl_text("  Round: You Lost!");
-        display_message();
+        display_message("  Round: You Lost!");
     }
 
 }
@@ -68,11 +53,10 @@ void game_result_message(int did_you_win_game)
 {
     if (did_you_win_game)
     {
-        tinygl_text("  GAME OVER: You Win!");
-        display_message();
+        display_message("  GAME OVER: You Win! ");
     }
     else {
-        tinygl_text("  GAME OVER: You Lose!");
-        display_message();
+        display_message("  GAME OVER: You Lose!");
     }
 }
+
