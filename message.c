@@ -13,8 +13,8 @@
 #include "auxiliary.h"
 
 
-/**Displays messages
-    @param pointer to first string character*/
+/**Displays  a text message
+    @param pointer to the first character of the string to display*/
 void display_message (char* text) {
 
     tinygl_text(text);

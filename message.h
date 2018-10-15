@@ -20,8 +20,8 @@
 #include "delay.h"
 /*---------------------Message functions------------------------------*/
 
-/**Displays a text message
-    @param text to display */
+/**Displays  a text message
+    @param pointer to the first character of the string to display*/
 void display_message(char* text);
 
 /**Displays the relevant message describing the reuslt of the round "Round: You Drew!", "Round: You Won!" or "Round: You Lost!"
