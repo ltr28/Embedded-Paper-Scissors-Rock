@@ -13,12 +13,13 @@
 #include "auxiliary.h"
 
 
-/**Displays the message at the beginning of the game "Best of: "*/
+/**Displays messages
+    @param pointer to first string character*/
 void display_message (char* text) {
 
     tinygl_text(text);
     int check = 0;
-    while (check == 0) {
+    while (check == 0) { //While loop causes the message to repeat until the navswitch is pushed down
        pacer_wait();
        tinygl_update();
        navswitch_update();
