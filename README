@@ -1,0 +1,28 @@
+
+
+This program runs a Best of Round of Paper Scissors Rock. 
+
+________________________Compiling the Program _________________________________
+To compile this file, plug in your UC Fun Kit to your USB port on your computer.
+Open this folder, right click and select open a terminal window.
+Type the command "make program" into the terminal window and press the Enter button.
+This compiles the program onto your fun kit.
+
+________________________Selecting a Number of Rounds___________________________
+On startup, a Best of: Message is displayed. For this and any following message,
+press the centre of the joystick to continue 
+
+To choose a number of rounds, scroll up and down using the joystick
+To select a number of rounds, press down on the joystick.
+Wait for your partner to select the same number of rounds. This will move on automatically.
+
+_______________________Playing a Round_________________________________________
+To choose an object, scroll up and down using the joystick
+To select an object, press down on the joystick.
+Once your partner has also selected a round, the winner is displayed.
+Once a round is finished, a message displays if you won, lost or drew.
+
+_______________________Who wins?______________________________________________
+The program keeps track of how many rounds have been won by each player.
+Once someone reaches the required number of wins, the program displays the the winner/loser.
+The program then displays a new game message and restarts.
