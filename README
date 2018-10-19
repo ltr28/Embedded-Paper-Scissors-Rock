@@ -1,5 +1,10 @@
-
-
+/*
+    * File:     game.c
+    * Authors:  Samuel Crawley (43420688)
+    *           Luke Trenberth (47277086)
+    * Date:     13.10.18
+    * Brief:    Paper Scissors Rock
+*/
 This program runs a Best of Round of Paper Scissors Rock. 
 
 ________________________Compiling the Program _________________________________
